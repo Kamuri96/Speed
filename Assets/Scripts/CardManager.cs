@@ -8,12 +8,18 @@ public class CardManager : MonoBehaviour
     public List<GameObject> playerCardPrefabs; // 自分のトランプのカードのプレハブを格納するためのリスト
     public Transform[] enemyCardSpawnPoints; // 敵のカードを生成する位置の配列
     public Transform[] playerCardSpawnPoints; // 自分のカードを生成する位置の配列
+    public Transform[] baseBlackCardPoints; //台札のカードを生成する位置の配列
+    public Transform[] baseRedCardPoints; //台札のカードを生成する位置の配列
 
     void Start()
     {
         // トランプをシャッフル
         List<GameObject> shuffledEnemyCards = ShuffleCards(enemyCardPrefabs);
         List<GameObject> shuffledPlayerCards = ShuffleCards(playerCardPrefabs);
+
+        //台札を配布
+        List<GameObject> baseBlackCard = DistributeHand(shuffledEnemyCards, 1);
+        List<GameObject> baseRedCard = DistributeHand(shuffledPlayerCards, 1);
 
         // 敵と自分の手札に四枚のカードを配布
         List<GameObject> enemyHand = DistributeHand(shuffledEnemyCards, 4);
@@ -22,6 +28,8 @@ public class CardManager : MonoBehaviour
         // 手札を指定された位置に配置する
         ArrangeCards(enemyHand, enemyCardSpawnPoints);
         ArrangeCards(playerHand, playerCardSpawnPoints);
+        ArrangeCards(baseBlackCard, baseBlackCardPoints);
+        ArrangeCards(baseRedCard, baseRedCardPoints);
     }
 
     // カードをシャッフルする関数
